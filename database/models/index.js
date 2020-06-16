@@ -4,8 +4,10 @@ const Items = require("./items");
 const Users = require("./users");
 const Orders = require("./orders");
 
-.hasMany();
-.belongsTo();
+//relations
+Users.hasMany(Orders);
+Orders.belongsTo(Users);
+Orders.hasMany(Items);
 
 module.exports = {
   Items,
