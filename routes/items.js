@@ -13,4 +13,22 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+/* GET particular item by id */
+router.get("/:id", async (req, res, next) => {
+  // take the id from params
+  const { id } = req.params;
+  // query the database for an item with matching id
+  try {
+    // if successful:
+    const item = await Items.findByPk(id);
+    // send back the item as a response
+    res.status(200).json(item);
+  } catch (err) {
+    // if error:
+    // handle error
+    next(err);
+  }
+});
+
+
 module.exports = router;
