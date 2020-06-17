@@ -1,4 +1,4 @@
-const { Items, Users, Orders } = require("../database/models");
+const { Items, Users, Orders, OrderItems } = require("../database/models");
 
 const seedDatabase = async () => {
   await Promise.all([
@@ -46,7 +46,16 @@ const seedDatabase = async () => {
     Orders.create({
       open: true,
       totalAmount: 500,
+    }),
+
+    OrderItems.create({
+      quantity: 2,
+      price: 120,
+      orderId: 1,
+      itemId: 3
     })
+
+
   ]);
 };
 
