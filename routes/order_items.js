@@ -3,11 +3,11 @@ var router = express.Router();
 const { Items, OrderItems } = require("../database/models");
 
 router.get("/", async (req, res, next) => {
-    // try to get campuses object from database
+    // try to get OrderItems object from database
     try {
-      // campuses will be the result of the Campus.findAll promise
+      // OrderItems will be the result of the OrderItems.findAll promise
       const allOrderItems = await OrderItems.findAll();
-      // if campuses is valid, it will be sent as a json response
+      // if OrderItems is valid, it will be sent as a json response
       console.log(allOrderItems);
       res.status(200).json(allOrderItems);
     } catch (err) {
@@ -16,15 +16,14 @@ router.get("/", async (req, res, next) => {
     }
   });
 
-// Route to handle adding a campus
-// /api/campuses/
+// Route to handle adding a OrderItem
+// /api/orders/
 router.post("/", async (req, res, next) => {
     // Take the form data from the request body    
     const { quantity, orderId, itemId} = req.body;
    
     // Create a campus object
-    try{
-        console.log(itemId);
+    try{        
         const item = await Items.findByPk(itemId);
         const iPrice = item.price;
          const orderItemObj = {
@@ -44,36 +43,37 @@ router.post("/", async (req, res, next) => {
     }   
    
   });
-/*
-router.put("/:id", async (req, res, next) => {
+
+
+router.put("/", async (req, res, next) => {
     // get the id from request params
-    const { id } = req.params;
+    //const { orderId, itemId } = req.params;
     // get form data from the request body
-    const { quantity, orderID, itemID } = req.body;
-    const updatedObj = {
-        quantity: quantity,
-        orderID: orderID,
-        itemID: itemID
-    };
+    const { orderId, itemId, quantity } = req.body;
+    
     try {
       // if successfull:
-      // Find a campus with a matching id from the database
-      const order = await Orders.findByPk(orderID);
-      const item = await Item.findByPk(itemID);
+      // Find a OrderItem with a matching id from the database
+      console.log(itemId + " " + orderId + " " + quantity);
+      const item = await Items.findByPk(itemId);
+      const iPrice = item.price;
+      console.log(item);
 
-      const orderItem = await OrderItems.findByPk(id, { 
-          include: order,
-          include: item
-    });
-      // database would return a valid campus object or an error
+      const updatedObj = {
+          quantity: quantity,    
+          price: iPrice  
+        };      
+
+      const orderItem = await OrderItems.findByPk(orderId);
+      // database would return a valid OrderItem object or an error
       console.log(updatedObj);
-      // modify the campus object with new form data
+      // modify the OrderItem object with new form data
       await orderItem.set(updatedObj);
-      // save the new campus object to the data
-      // database would return a new campus object
+      // save the new OrderItem object to the data
+      // database would return a new OrderItem object
       const updatedOrderItem = await orderItem.save();
       console.log(updatedOrderItem);
-      // send the newCampus as a response from the API
+      // send the new OrderItem as a response from the API
       res.status(201).send(updatedOrderItem);
     } catch (err) {
       // if error:
@@ -81,6 +81,7 @@ router.put("/:id", async (req, res, next) => {
       next(err);
     }
   });
-  */
+
+  
   module.exports = router;
   
