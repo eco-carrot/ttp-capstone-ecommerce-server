@@ -4,7 +4,7 @@ var router = express.Router();
 const itemsRouter = require("./items");
 const ordersItemsRouter = require("./order_items")
 router.use("/items", itemsRouter);
-router.use("/orders", ordersItemsRouter);
+router.use("/order_items", ordersItemsRouter);
 
 // Error handling middleware;
 router.use((req, res, next) => {
