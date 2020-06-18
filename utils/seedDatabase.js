@@ -32,14 +32,16 @@ const seedDatabase = async () => {
     Users.create({
       lastName: "Doe",
       firstName: "Jane",
-      email:  "jane.doe@gmail.com",    
+      email:  "jane.doe@gmail.com", 
+      password: "12345",   
       role: "user",
     }),
 
     Users.create({
       lastName: "Doe",
       firstName: "John",
-      email:  "john.doe@aol.com",    
+      email:  "john.doe@aol.com",
+      password: "567890",     
       role: "admin",
     }),
 
