@@ -48,11 +48,44 @@ router.post("/", async (req, res, next) => {
             orderId: orderId,
             itemId: itemId,
     };
+        //find if the object exist, update if it is
+        const existingOrderItem = await OrderItems.findOne({where: 
+          {orderId: orderItemObj.orderId,
+            itemId: orderItemObj.itemId},
+          raw: true});
+        
+        if(existingOrderItem)
+        {
+          console.log(existingOrderItem.quantity);
+          orderItemObj.quantity = Number(orderItemObj.quantity) + Number(existingOrderItem.quantity);
+          console.log(orderItemObj.quantity);
+
+          const orderItem = await OrderItems.update(
+            {
+              quantity: orderItemObj.quantity,
+              price: orderItemObj.price 
+            },
+            {
+              where: {orderId: orderItemObj.orderId,
+              itemId: orderItemObj.itemId}
+          });
+
+          const updatedObject = await OrderItems.findOne({where: 
+            {orderId: orderItemObj.orderId,
+              itemId: orderItemObj.itemId},
+            raw: true});
+          res.status(200).json(updatedObject);
+        }
+        else{
             // Create a new OrderItem on the database
-        const newOrderItem = await OrderItems.create(orderItemObj);
-        // The database would return a OrderItem
-        // send that OrderItem as a json to the client
-        res.status(201).send(newOrderItem);
+          const newOrderItem = await OrderItems.create(orderItemObj);
+          // The database would return a OrderItem
+          // send that OrderItem as a json to the client
+          res.status(201).send(newOrderItem);
+        }        
+            
+
+        
     }
     catch (err){
         next(err);
@@ -91,7 +124,7 @@ router.put("/:id/:itemID", async (req, res, next) => {
         });
       
       //find the updated object, convert it to JSON, and save data as updatedOrderItem
-      const updatedOrderItem = await OrderItems.findAll(
+      const updatedOrderItem = await OrderItems.findOne(
           {
             where: {orderId: id,
                 itemId: itemID},
