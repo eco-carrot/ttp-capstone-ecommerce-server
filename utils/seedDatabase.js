@@ -47,7 +47,7 @@ const seedDatabase = async () => {
 
     Orders.create({
       open: true,
-      totalAmount: 500,
+      totalAmount: 500,      
     }),
 
     OrderItems.create({

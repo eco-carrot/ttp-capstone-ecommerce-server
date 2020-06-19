@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Users, OrderItems } = require("../database/models");
+const { Users, Orders } = require("../database/models");
 
 /* GET all Users */
 // /api/user
@@ -22,6 +22,33 @@ router.get("/:id", async (req, res, next) => {
   try {
     const user = await Users.findByPk(id);
     res.status(200).json(user);
+    // send back json for particular uesr
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:id/orders", async (req, res, next) => {
+  // take the userId from params
+  const { id } = req.params;
+  try {
+    const orders = await Orders.findAll({where: 
+      {userId: req.params.id}});
+    res.status(200).json(orders);
+    // send back json for particular uesr
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:id/orders/open", async (req, res, next) => {
+  // take the userId from params
+  const { id } = req.params;
+  try {
+    const orders = await Orders.findOne({where: 
+      {userId: req.params.id,
+      open: true}});
+    res.status(200).json(orders);
     // send back json for particular uesr
   } catch (err) {
     next(err);
