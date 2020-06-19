@@ -9,7 +9,10 @@ const Users = db.define("users", {
   firstName: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: false, validate: {isEmail: true}, unique:true },    
   role: { type: Sequelize.STRING, allowNull: false }, 
-  password: {type: Sequelize.STRING, allowNull: false},   
+  password: {type: Sequelize.STRING, allowNull: false,
+    get() {
+      return () => this.getDataValue("password");
+    }},   
   salt: { type: sequelize.STRING, get(){
     return () => this.getDataValue("salt")
   }},
@@ -21,11 +24,11 @@ const Users = db.define("users", {
   },
 });
 
-User.generateSalt = function() {
+Users.generateSalt = function() {
   return crypto.randomBytes(16).toString("base64");
 };
 
-User.encryptPassword = function(plainText, salt) {
+Users.encryptPassword = function(plainText, salt) {
   return crypto
     .createHash("RSA-SHA256")
     .update(plainText)
@@ -33,19 +36,20 @@ User.encryptPassword = function(plainText, salt) {
     .digest("hex");
 };
 
-User.prototype.correctPassword = function(candidatePwd) {
-  return User.encryptPassword(candidatePwd, this.salt()) === this.password();
+Users.prototype.correctPassword = function(candidatePwd) {
+  return Users.encryptPassword(candidatePwd, this.salt()) === this.password();
 };
 
 const setSaltAndPassword = user => {
   if (user.changed("password")) {
-    user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password(), user.salt());
+    user.salt = Users.generateSalt();
+    console.log(user.salt());
+    user.password = Users.encryptPassword(user.password(), user.salt());
   }
 };
 
-User.beforeCreate(setSaltAndPassword);
-User.beforeUpdate(setSaltAndPassword);
+Users.beforeCreate(setSaltAndPassword);
+Users.beforeUpdate(setSaltAndPassword);
 
 
 module.exports = Users;

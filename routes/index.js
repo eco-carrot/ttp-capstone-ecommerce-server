@@ -2,14 +2,18 @@ var express = require("express");
 var router = express.Router();
 
 const itemsRouter = require("./items");
-const ordersItemsRouter = require("./order_items")
-const ordersRouter = require("./order")
-const usersRouter = require("./user")
+const ordersItemsRouter = require("./order_items");
+const ordersRouter = require("./order");
+const usersRouter = require("./user");
 
 router.use("/items", itemsRouter);
 router.use("/order_items", ordersItemsRouter);
 router.use("/order", ordersRouter);
-router.use("/user",usersRouter)
+router.use("/user",usersRouter);
+
+
+
+
 
 // Error handling middleware;
 router.use((req, res, next) => {

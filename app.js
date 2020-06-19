@@ -15,13 +15,11 @@ const helmet = require("helmet");
 const compression = require("compression");
 const session = require("express-session");
 const passport = require("passport");
-const authRouter = require("./auth");
+const authRouter = require("./authorize");
 const apiRouter = require("./routes");
 const cors = require("cors");
 
-//AJ's code...(initalize sequelize with session store)
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const sessionStore = new SequelizeStore({ db});
+
 
 // Utilities;
 const createLocalDatabase = require("./utils/createLocalDatabase");
@@ -29,6 +27,10 @@ const seedDatabase = require("./utils/seedDatabase");
 
 // Our database instance;
 const db = require("./database");
+
+//AJ's code...(initalize sequelize with session store)
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const sessionStore = new SequelizeStore({db});
 
 // A helper function to sync our database;
 const syncDatabase = () => {
@@ -113,19 +115,21 @@ const configureApp = () => {
   });
 };
 
+/*
 const startListening = () => {
   const PORT = 3001;
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}!!!`);
   })
 }
+*/
 
 // Main function declaration;
 const bootApp = async () => {
   await syncDatabase();
   await configureApp();
   await sessionStore.sync();
-  await startListening();
+  //await startListening();
 
 };
 

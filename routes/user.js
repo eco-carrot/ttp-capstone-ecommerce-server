@@ -14,19 +14,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//api/user/:id/order/id
-router.get("/:id/shoppingCart/", async (req, res, next) => {
-  // take the userId from params
-  try {
-    const user = await Users.findAll({where: 
-      {orderId: req.params.id}});;
-    res.status(200).json(user);
-    // send back json for particular uesr
-  } catch (err) {
-    next(err);
-  }
-});
-
 
 // /api/user/:id retrieve json per user
 router.get("/:id", async (req, res, next) => {
