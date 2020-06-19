@@ -33,11 +33,12 @@ router.get("/:id", async (req, res, next) => {
 // /api/order/
 router.post("/", async (req, res, next) => {
   // Take the form data from the request body
-  const { open, totalAmount } = req.body;
+  const { open, totalAmount, userId } = req.body;
   // Create a campus object
   const orderObj = {
     open:open,
     totalAmount:totalAmount,
+    userId: userId
   };
   try {
     const newOrder = await Orders.create(orderObj);
