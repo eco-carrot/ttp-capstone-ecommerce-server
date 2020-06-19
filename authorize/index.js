@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../database/models");
+const { Users } = require("../database/models");
 
+//auth/signup
 router.post("/signup", async (req, res, next) => {
     try {
-      const user = await User.create(req.body);
+      const user = await Users.create(req.body);
       req.login(user, err => (err ? next(err) : res.json(user)));
     }
     catch (err) {
@@ -17,9 +18,10 @@ router.post("/signup", async (req, res, next) => {
     }
   });
 
+  //auth/login
 router.post("/login", async (req, res, next) => {
   try {
-    const user = await User.findOne({ where: { email: req.body.email } });
+    const user = await Users.findOne({ where: { email: req.body.email } });
     if (!user) {
       res.status(401).send("Wrong username and/or password");
     }
@@ -35,6 +37,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+//auth/
 router.delete("/logout", (req, res, next) => {
   req.logout();
   req.session.destroy((err) => {
@@ -47,6 +50,7 @@ router.delete("/logout", (req, res, next) => {
   });
 });
 
+//auth/
 router.get("/me", (req, res) => {
   res.json(req.user);
 });

@@ -8,7 +8,7 @@ const Users = db.define("users", {
   lastName: { type: Sequelize.STRING, allowNull: false },
   firstName: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: false, validate: {isEmail: true}, unique:true },    
-  role: { type: Sequelize.STRING, allowNull: false }, 
+  role: { type: Sequelize.STRING, allowNull: false, defaultValue: "user"}, 
   password: {type: Sequelize.STRING, allowNull: false,
     get() {
       return () => this.getDataValue("password");
