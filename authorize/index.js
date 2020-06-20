@@ -38,9 +38,13 @@ router.post("/login", async (req, res, next) => {
 });
 
 //auth/
-router.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
+router.post('/logout', async (req, res, next) => {
+  try {
+    req.logout();
+    res.redirect('/');
+  } catch (err) {
+    next(err);
+  }
 });
 
 //auth/
