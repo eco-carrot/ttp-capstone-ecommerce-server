@@ -44,11 +44,25 @@ router.get("/:id/orders", async (req, res, next) => {
 router.get("/:id/orders/open", async (req, res, next) => {
   // take the userId from params
   const { id } = req.params;
+  
   try {
-    const orders = await Orders.findOne({where: 
+    const existingOpenOrder = await Orders.findOne({where: 
       {userId: req.params.id,
       open: true}});
-    res.status(200).json(orders);
+
+    if(existingOpenOrder){
+      res.status(200).json(existingOpenOrder);
+    }
+    else{
+      const newOrderObj = {
+        open: true,
+        totalAmount: 0,
+        userId: req.params.id
+      };
+      const newOrder = await Orders.create(newOrderObj);
+      res.status(201).send(newOrder);
+    }
+    
     // send back json for particular uesr
   } catch (err) {
     next(err);
