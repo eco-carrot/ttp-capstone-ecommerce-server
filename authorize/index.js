@@ -38,16 +38,9 @@ router.post("/login", async (req, res, next) => {
 });
 
 //auth/
-router.delete("/logout", (req, res, next) => {
+router.get('/logout', function(req, res) {
   req.logout();
-  req.session.destroy((err) => {
-    if (err) {
-      return next(err);
-    }
-    else {
-      res.status(204).end();
-    }
-  });
+  res.redirect('/');
 });
 
 //auth/
