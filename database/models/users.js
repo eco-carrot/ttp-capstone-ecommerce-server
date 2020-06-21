@@ -42,8 +42,7 @@ Users.prototype.correctPassword = function(candidatePwd) {
 
 const setSaltAndPassword = user => {
   if (user.changed("password")) {
-    user.salt = Users.generateSalt();
-    console.log(user.salt());
+    user.salt = Users.generateSalt();    
     user.password = Users.encryptPassword(user.password(), user.salt());
   }
 };

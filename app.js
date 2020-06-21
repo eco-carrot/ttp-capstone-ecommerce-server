@@ -115,15 +115,6 @@ const configureApp = () => {
   });
 };
 
-/*
-const startListening = () => {
-  const PORT = 3001;
-  app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}!!!`);
-  })
-}
-*/
-
 // Main function declaration;
 const bootApp = async () => {
   await syncDatabase();
