@@ -13,7 +13,7 @@ router.use("/order_items", ordersItemsRouter);
 router.use("/order", ordersRouter);
 router.use("/user",usersRouter);
 router.use("/checkout", checkoutRouter);
-router.use("/orderHistory", orderHistoryRouter);
+router.use("/orderHistory/", orderHistoryRouter);
 
 
 

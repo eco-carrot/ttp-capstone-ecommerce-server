@@ -5,9 +5,11 @@ const { Orders, OrderItems, Items } = require("../database/models");
 
 /* GET Order History for a user */
 // /api/userHistory
-router.get("/", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
 
     const { userId } = req.body;
+
+    console.log(userId);
 
     try {
 
@@ -36,8 +38,8 @@ router.get("/", async (req, res, next) => {
                     id: currentItem.id,
                     name: currentItem.name,
                     unitsSold: currentOrderItem.quantity,
-                    price: currentItem.price,
-                    totalAmount: (currentItem.price*currentOrderItem.quantity),
+                    price: currentOrderItem.price,
+                    totalAmount: (currentOrderItem.price*currentOrderItem.quantity),
                     category: currentItem.category,
                     description: currentItem.description,
                     imageURL: currentItem.imageURL
@@ -51,6 +53,7 @@ router.get("/", async (req, res, next) => {
             const currentOrderPromsie = Promise.all(currentOrderItemsPromises).then( (ItemsFromPromise) => {
                 orderFromP = {
                     orderId: order.id,
+                    paidDate: order.updatedAt,
                     totalOrderAmount: order.totalAmount,
                     itemsInOrder: ItemsFromPromise
                 };                
