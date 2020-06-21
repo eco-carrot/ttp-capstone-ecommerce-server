@@ -60,8 +60,7 @@ router.post("/", async (req, res) => {
       //update stock
       const allOrderItems = await OrderItems.findAll({where: {orderId: product.name}});
 
-       allOrderItems.map(async (currentOrderItem) => {
-          console.log({currentOrderItem});
+       allOrderItems.map(async (currentOrderItem) => {          
           const currentItem = await Items.findByPk(currentOrderItem.itemId);           
           let updatedItemObj = currentItem;          
           updatedItemObj.quantity -= currentOrderItem.quantity;          

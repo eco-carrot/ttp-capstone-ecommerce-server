@@ -59,8 +59,7 @@ router.put("/:id", async (req, res, next) => {
   };
   try {
     // find order by key
-    const order = await Orders.findByPk(id);
-    console.log(updatedOrderObj)
+    const order = await Orders.findByPk(id);    
     //reset found order by updated value
     await order.set(updatedOrderObj);
     const updatedOrder = await order.save();

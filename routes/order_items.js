@@ -8,8 +8,7 @@ router.get("/", async (req, res, next) => {
     try {
       // OrderItems will be the result of the OrderItems.findAll promise
       const allOrderItems = await OrderItems.findAll();
-      // if OrderItems is valid, it will be sent as a json response
-      console.log(allOrderItems);
+      // if OrderItems is valid, it will be sent as a json response      
       res.status(200).json(allOrderItems);
     } catch (err) {
       // if there is an error, it'll passed via the next parameter to the error handler middleware
@@ -55,10 +54,8 @@ router.post("/", async (req, res, next) => {
           raw: true});
         
         if(existingOrderItem)
-        {
-          console.log(existingOrderItem.quantity);
-          orderItemObj.quantity = Number(orderItemObj.quantity) + Number(existingOrderItem.quantity);
-          console.log(orderItemObj.quantity);
+        {          
+          orderItemObj.quantity = Number(orderItemObj.quantity) + Number(existingOrderItem.quantity);         
 
           const orderItem = await OrderItems.update(
             {

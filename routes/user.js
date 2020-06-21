@@ -102,8 +102,7 @@ router.put("/:id", async (req, res, next) => {
   };
   try {
     // find user by key
-    const user = await Users.findByPk(id);
-    console.log(updatedUserObj)
+    const user = await Users.findByPk(id);    
     //reset found user by updated value
     await user.set(updatedUserObj);
     const updatedUser = await user.save();
