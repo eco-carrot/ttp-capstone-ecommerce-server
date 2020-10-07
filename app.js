@@ -74,7 +74,7 @@ const configureApp = () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(compression());
   app.use(cookieParser());
-  app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+  app.use(cors({ credentials: true, origin: 'https://eco-carrot.web.app' }))
 
   // Our apiRouter
   const apiRouter = require("./routes/index");
